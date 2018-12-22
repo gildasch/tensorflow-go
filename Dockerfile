@@ -21,3 +21,11 @@ ENV LIBRARY_PATH $TARGET_DIRECTORY/lib
 RUN go get -d github.com/tensorflow/tensorflow/tensorflow/go
 
 RUN cd $GOPATH/src/github.com/tensorflow/tensorflow/tensorflow/go && git checkout r1.12
+
+RUN apt-get -y update && \
+    apt-get -y install build-essential checkinstall libx11-dev libxext-dev zlib1g-dev libpng12-dev libjpeg-dev libfreetype6-dev libxml2-dev wget && \
+    cd /tmp && wget http://www.imagemagick.org/download/ImageMagick-7.0.8-19.tar.gz && \
+    tar xvzf ImageMagick-7.0.8-19.tar.gz && cd ImageMagick-7.0.8-19 && \
+    touch configure && ./configure && make && make install && \
+    ldconfig /usr/local/lib && \
+    rm -rf /tmp/ImageMagick*
